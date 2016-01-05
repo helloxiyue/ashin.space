@@ -49,6 +49,7 @@ Temporary Items
 # Directories and files created by node.js
 *.njsproj
 *.sln
+*.suo
 node_modules/
 bin/
 obj/
