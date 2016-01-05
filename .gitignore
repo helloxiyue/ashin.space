@@ -50,6 +50,7 @@ Temporary Items
 *.njsproj
 *.sln
 *.suo
+*.log
 node_modules/
 bin/
 obj/
