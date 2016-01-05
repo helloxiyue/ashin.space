@@ -1,0 +1,28 @@
+﻿.hljs-tag{
+    color:#0094ff
+}
+
+.hljs-title, .hljs-params{
+    color:#980505;
+}
+
+.hljs-attribute, .hljs-attr_selector{
+    color:#ff1515;
+}
+
+.hljs-value, .hljs-function{
+    color:#0510e2;
+}
+
+.hljs-comment{
+    color:#14b929;
+}
+
+.hljs-number, hljs-keyword{
+    color:#ff6a00;
+}
+
+.hljs-literal, .hljs-built_in, .hljs-at_rule{
+    color:#9506d3;
+}
+

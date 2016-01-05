@@ -1,0 +1,676 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" http-equiv="content-type" content="text/html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>GUI·JavaScript 插件</title>
+    <link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.css" />
+    <script type="text/javascript" src="../../script/jquery/jquery1.11.2.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../script/jskit/nano-bootstrap.js"></script>
+    <!--[if lt IE 9]>
+        <link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.patch.css" />
+        <script type="text/javascript">
+            if (!Array.prototype.forEach) {
+                Array.prototype.forEach = function(callback, thisArg){}
+            }
+            if(!window.addEventListener){
+                window.addEventListener = function(a, b, c){}
+            }
+        </script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="../../script/plugins/highlight/styles/html.css" />
+    <script type="text/javascript" src="../../script/plugins/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            hljs.initHighlightingOnLoad();
+
+            var nanoNav = $('#nanoNav');
+            nanoNav.width(nanoNav.parent().width());
+
+            jk.automenu('#nanoNav', true);
+
+            $('body').scrollspy({ target: '#nanoNav' });
+
+            $('#showJs_alert_btn1').click(function (e) {
+                jk.event(e);
+                jk.alert({
+                    title: '消息',
+                    msg: '这是警告框!',
+                });
+            })
+
+            $('#showJs_query_btn_author').click(function (e) {
+                jk.event(e);
+                jk.alert({
+                    title: '消息',
+                    msg: 'author:' + jk.query('author'),
+                });
+            })
+
+            $('#showJs_query_btn_major').click(function (e) {
+                jk.event(e);
+                jk.alert({
+                    title: '消息',
+                    msg: 'author:' + jk.query('major'),
+                });
+            })
+
+            $('#showJs_alert_btn2').click(function (e) {
+                jk.event(e);
+                jk.alert({
+                    title: '自定义警告框',
+                    msg: '粉色背景，500px宽度<br/>点击确认，2秒后才消失!',
+                    css: {
+                        width: 500,
+                        background: '#FFEFE7'
+                    },
+                    yesFun: function (backTitle, backMsg) {
+                        backTitle.html('请等待！');
+                        backMsg.html('马上消失...');
+                        setTimeout(function () {
+                            $('.modalAlert').modal('hide')
+                        }, 2000);
+                        return false;
+                    }
+                });
+            })
+
+            $('#showJs_confirm_btn1').click(function (e) {
+                jk.event(e);
+                jk.confirm({
+                    title: '确认信息',
+                    msg: '这是确认框!',
+                });
+            })
+
+            $('#showJs_confirm_btn2').click(function (e) {
+                jk.event(e);
+                jk.confirm({
+                    title: '自定义确认框',
+                    msg: '点击“确认”按钮无反应<br/>点击“取消”按钮后确认框消失',
+                    yesFun: function () {
+                        return false;
+                    },
+                    noFun: function () {
+                        return true;
+                    }
+                });
+            })
+
+            if (jk.media('(min-width:700px'))
+                console.log('屏幕宽度大于700px');
+            else
+                console.log('屏幕宽度小于700px');
+
+            if (jk.isMobileSet())
+                console.log('移动设备');
+            else
+                console.log('不是移动设备');
+        })
+    </script>
+    <link type="text/css" rel="stylesheet" href="../../css/show.css" />
+    <style type="text/css">
+        .affix {
+            top: 50px;
+            position: fixed !important;
+            left: auto !important;
+        }
+    </style>
+</head>
+<body data-spy="scroll" data-target="#nanoNav">
+    <span class="sr-only" id="top"></span>
+    <nav class="navbar navbar-default">
+        <div class="container container-lg">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nbHeader">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Nano</a>
+            </div>
+            <div class="collapse navbar-collapse" id="nbHeader">
+                <ul class="nav navbar-nav">
+                    <li><a href="css.html">全局CSS样式</a></li>
+                    <li><a href="components.html">组件</a></li>
+                    <li class="active"><a href="plugin.html">Javasrcipt插件</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="http://www.campnano.com/">开普纳</a></li>
+                    <li><a href="http://campnano.xjtu.ylabs.net/">易约</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="jumbotron">
+        <div class="container container-lg">
+            <h1>JavaScript 插件</h1>
+            <p>添加的js插件封装在jk对象中，引入nano-bootstrap.js即可，测试结果打开控制台查看</p>
+            <p>提供了一些利索的小工具</p>
+            <p><a class="btn btn-default btn-lg btn-nano" href="/src/nano.bootstrap.zip" style="color:#32beaa;" target="_blank">DOWNLOAD</a></p>
+        </div>
+    </div>
+    <div class="container container-lg">
+        <div class="row">
+            <div class="col-sm-15">
+                <div class="nb-section">
+                    <h2 class="navHeader" id="showJs_media">媒体查询</h2>
+                    <hr />
+                    <p>媒体查询 jk.media(mediaStr)，支持常见的如<code>@media (min-width:700px)</code>等媒体查询，返回bool值。</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="table-responsive">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <caption>jk.media(mediaStr) 返回bool</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>名称</th>
+                                                <th>类型</th>
+                                                <th>描述</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>mediaStr</td>
+                                                <td>string</td>
+                                                <td>媒体查询字符串，例如 "(min-width:700px)"</td>
+                                            </tr>
+                                            <tr>
+                                                <td>return(返回值)</td>
+                                                <td>bool</td>
+                                                <td>返回媒体查询的真假</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿&lt;!--测试代码--&gt;
+&lt;script type="text/javascript"&gt;
+    $(function () {
+        if (jk.media('(min-width:700px'))
+            console.log('屏幕宽度大于700px');
+        else
+            console.log('屏幕宽度小于700px');
+    })
+&lt;/script&gt;﻿</code>
+</pre>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nb-section">
+                    <h2 class="navHeader" id="showJs_isMobile">移动端查询</h2>
+                    <hr />
+                    <p>移动端查询 jk.isMobileSet()，查询浏览器所在设备是否是移动设备，返回bool值</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <caption>jk.isMobileSet() 返回bool</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>名称</th>
+                                            <th>类型</th>
+                                            <th>描述</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>return(返回值)</td>
+                                            <td>bool</td>
+                                            <td>若为移动设备返回true，否者返回false</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;!--测试代码--&gt;
+&lt;script type="text/javascript"&gt;
+    if (jk.isMobileSet())
+        console.log('移动设备');
+    else
+        console.log('不是移动设备');
+&lt;/script&gt;</code>
+</pre>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showJs_alert" class="navHeader">警告框</h2>
+                    <hr />
+                    <p>警告框 jk.alert(options)，基于bootstrap模态框，弹出警告框</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <button class="btn btn-primary btn-nano" id="showJs_alert_btn1">弹出警告框</button>
+                            <br />
+                            <br />
+                            <div class="box box-gray box-stress">
+                                <h4>注意</h4>
+                                <p>由于基于模态框，所以一定要引入modal.js，并且添加下面的HTML代码到body里面</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿&lt;!--一定要作为body的亲子元素--&gt;
+&lt;div class="modal modalAlert"&gt;&lt;!--一定要添加modalAlert类，且只能有一个--&gt;
+    &lt;div class="modal-dialog modal-sm"&gt;
+        &lt;div class="modal-content"&gt;
+            &lt;div class="modal-header"&gt;
+                &lt;h4 id="modal-title" class="modal-title"&gt;&lt;/h4&gt;
+            &lt;/div&gt;
+            &lt;div class="modal-body"&gt;&lt;/div&gt;
+            &lt;div class="modal-footer"&gt;
+                &lt;!--一定要添加modalConfirmYes类--&gt;
+                &lt;button type="button" class="btn btn-primary btn-nano modalConfirmYes"&gt;确认&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;﻿</code>
+</pre>
+                        </li>
+                    </ul>
+                    <h3>参数</h3>
+                    <p>通过参数设定，自定义警告框</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <button class="btn btn-primary btn-nano" id="showJs_alert_btn2">自定义警告框</button>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿&lt;!--测试代码--&gt;
+&lt;script&gt;
+    $('#showJs_alert_btn2').click(function (e) {
+        jk.event(e);
+        jk.alert({
+            title: '自定义警告框',
+            msg: '粉色背景，500px宽度&lt;br/&gt;点击确认，2秒后才消失!',
+            css: {
+                width: 500,
+                background: '#FFEFE7'
+            },
+            yesFun: function (backTitle, backMsg) {
+                backTitle.html('请等待！');
+                backMsg.html('马上消失...');
+                setTimeout(function () {
+                    $('.modalAlert').modal('hide')
+                }, 2000);
+                return false;
+            }
+        });
+    })
+&lt;/script&gt;﻿</code>
+</pre>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <caption>
+                                        jk.alert(options) 返回 NULL<br />
+                                        参数说明
+                                    </caption>
+                                    <thead>
+                                        <tr>
+                                            <th>名称</th>
+                                            <th>类型</th>
+                                            <th>描述</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                options.title
+                                            </td>
+                                            <td>
+                                                DOM object |<br />
+                                                Jquery object |<br />
+                                                HTML string
+                                            </td>
+                                            <td>警告框的标题</td>
+                                        </tr>
+                                        <tr>
+                                            <td>options.msg</td>
+                                            <td>
+                                                DOM object |<br />
+                                                Jquery object |<br />
+                                                HTML string
+                                            </td>
+                                            <td>警告框的内容</td>
+                                        </tr>
+                                        <tr>
+                                            <td>options.yesFun</td>
+                                            <td>
+                                                function(backTitle,backMsg) <br />
+                                                backTitle === options.title<br />
+                                                backMsg === options.msg
+                                            </td>
+                                            <td>
+                                                点击确认按钮后激发的事件<br />
+                                                return true，警告框将隐藏<br />
+                                                return false， 警告框继续显示<br />
+                                                可以通过返回的参数backTitle,backMsg继续控制警告框
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>options.css</td>
+                                            <td>Jquery css object</td>
+                                            <td>设置警告框的样式</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showJs_confirm" class="navHeader">确认框</h2>
+                    <hr />
+                    <p>确认框 jk.confirm(options)，基于bootstrap模态框，弹出确认框</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <button class="btn btn-primary btn-nano" id="showJs_confirm_btn1">弹出确认框</button>
+                            <br />
+                            <br />
+                            <div class="box box-gray box-stress">
+                                <h4>注意</h4>
+                                <p>由于基于模态框，所以一定要引入modal.js，并且添加下面的HTML代码到body里面</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿&lt;!--body亲子元素--&gt;
+&lt;div class="modal modalConfirm"&gt;添加modalConfirm类
+    &lt;div class="modal-dialog modal-sm"&gt;
+        &lt;div class="modal-content"&gt;
+            &lt;div class="modal-header"&gt;
+                &lt;h4 id="modal-title" class="modal-title"&gt;&lt;/h4&gt;
+            &lt;/div&gt;
+            &lt;div class="modal-body"&gt;&lt;/div&gt;
+            &lt;div class="modal-footer"&gt;
+                &lt;!--添加modalConfirmNo类--&gt;
+                &lt;button type="button" class="btn btn-default btn-nano modalConfirmNo"&gt;取消&lt;/button&gt;
+                &lt;!--添加modalConfirmYes类--&gt;
+                &lt;button type="button" class="btn btn-primary btn-nano modalConfirmYes"&gt;确认&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;﻿</code>
+</pre>
+                        </li>
+                    </ul>
+                    <h3>参数</h3>
+                    <p>通过参数设定，自定义确认框</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <button class="btn btn-primary btn-nano" id="showJs_confirm_btn2">自定义确认框</button>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;script&gt;
+    $('#showJs_confirm_btn2').click(function (e) {
+        jk.event(e);
+        jk.confirm({
+            title: '自定义确认框',
+            msg: '点击“确认”按钮无反应&lt;br/&gt;点击“取消”按钮后确认框消失',
+            yesFun: function () {
+                return false;
+            },
+            noFun: function () {
+                return true;
+            }
+        });
+    })
+&lt;/script&gt;</code>
+</pre>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <caption>
+                                        jk.confirm(options) 返回 NULL<br />
+                                        参数说明
+                                    </caption>
+                                    <thead>
+                                        <tr>
+                                            <th>名称</th>
+                                            <th>类型</th>
+                                            <th>描述</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                options.title
+                                            </td>
+                                            <td>
+                                                DOM object |<br />
+                                                Jquery object |<br />
+                                                HTML string
+                                            </td>
+                                            <td>警告框的标题</td>
+                                        </tr>
+                                        <tr>
+                                            <td>options.msg</td>
+                                            <td>
+                                                DOM object |<br />
+                                                Jquery object |<br />
+                                                HTML string
+                                            </td>
+                                            <td>警告框的内容</td>
+                                        </tr>
+                                        <tr>
+                                            <td>options.yesFun</td>
+                                            <td>
+                                                function(backTitle,backMsg) <br />
+                                                backTitle === options.title<br />
+                                                backMsg === options.msg
+                                            </td>
+                                            <td>
+                                                点击确认按钮后激发的事件<br />
+                                                return true，警告框将隐藏<br />
+                                                return false， 警告框继续显示<br />
+                                                可以通过返回的参数backTitle,backMsg继续控制警告框
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>options.noFun</td>
+                                            <td>
+                                                function(backTitle,backMsg) <br />
+                                                backTitle === options.title<br />
+                                                backMsg === options.msg
+                                            </td>
+                                            <td>
+                                                点击取消按钮后激发的事件<br />
+                                                return true，警告框将隐藏<br />
+                                                return false， 警告框继续显示<br />
+                                                可以通过返回的参数backTitle,backMsg继续控制警告框
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>options.css</td>
+                                            <td>Jquery css object</td>
+                                            <td>设置警告框的样式</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showJs_query" class="navHeader">GET query</h2>
+                    <hr />
+                    <p>jk.query(name) 查询浏览器GET方法传递的内容</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <p>复制以下内容，并粘贴到浏览器地址栏，回车后点击下面按钮</p>
+                            <p>
+                                <code>
+                                    <script type="text/javascript">
+                                        document.write(window.location.href.split(/[#,?]/)[0]);
+                                    </script>?author=ashin&major=computer
+                                </code>
+
+                            </p>
+                            <button class="btn btn-primary btn-nano" id="showJs_query_btn_author">查看author</button>
+                            <button class="btn btn-primary btn-nano" id="showJs_query_btn_major">查看major</button>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿&lt;script&gt;
+    $('#showJs_query_btn_author').click(function (e) {
+        jk.event(e);
+        jk.alert({
+            title: '消息',
+            msg: 'author:' + jk.query('author'),
+        });
+    })
+&lt;/script&gt;﻿</code>
+</pre>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <caption>jk.query(name) 返回string</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>名称</th>
+                                            <th>类型</th>
+                                            <th>描述</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>name</td>
+                                            <td>string</td>
+                                            <td>query对象名称</td>
+                                        </tr>
+                                        <tr>
+                                            <td>return(返回值)</td>
+                                            <td>string</td>
+                                            <td>query对象的值</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nb-section">
+                    <h2 class="navHeader" id="showJs_automenu">自动完成导航菜单</h2>
+                    <hr />
+                    <p>jk.automenu(parent,returnTop)，自动完成导航菜单</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <p>支持二级菜单</p>
+                            <p>一级菜单用<code>.nb-section</code>标记，菜单名称用<code>.navHeader</code>标记，且一定要填写<code>id</code></p>
+                            <p>二级菜单用<code>.nb-sub-section</code>标记，菜单名称用<code>.subNavHeader</code>标记，且一定要填写<code>id</code></p>
+                            <p>HTML代码如下</p>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;!--一级菜单--&gt;
+&lt;div class="nb-section"&gt;
+    &lt;!--一级菜单名称--&gt;
+    &lt;h2 id="showGrid" class="navHeader"&gt;栅格系统&lt;/h2&gt;
+    &lt;!--二级菜单，一定要是对应一级菜单的子元素--&gt;
+    &lt;div class="nb-sub-section"&gt;
+        &lt;!--二级菜单名称--&gt;
+        &lt;h3 id="showGrid_compat" class="subNavHeader"&gt;兼容解决方案&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class="nb-sub-section"&gt;
+        &lt;h3 id="showGrid_gutter" class="subNavHeader"&gt;gutter解决方案&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="nb-section"&gt;
+    &lt;h2 id="showTable" class="navHeader"&gt;表格&lt;/h2&gt;
+    &lt;div class="nb-sub-section"&gt;
+        &lt;h3 id="showTable_table" class="subNavHeader"&gt;基本实例&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class="nb-sub-section"&gt;
+        &lt;h3 id="showTable_striped" class="subNavHeader"&gt;条纹状表格&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class="nb-sub-section"&gt;
+        &lt;h3 id="showTable_bordered" class="subNavHeader"&gt;带边框的表格&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class="nb-sub-section"&gt;
+        &lt;h3 id="showTable_hover" class="subNavHeader"&gt;鼠标悬停&lt;/h3&gt;
+    &lt;/div&gt;   
+&lt;/div&gt;</code>
+</pre>
+                        </li>
+                        <li class="list-group-item list-code">
+                            <pre>
+<code class="language-html" data-lang="html">﻿&lt;!--然后调用以下Js代码--&gt;
+&lt;script type="text/javascript"&gt;
+    $(function () {
+        //jk.automenu(parent,scrollTop);
+        //parent: Jquery query string，生成的菜单appendTo的父元素
+        //scrollTop: bool，是否生成返回顶部的元素，请添加 id="top" 锚点
+        jk.automenu('#navMenu', true);
+    })
+&lt;/script&gt;﻿</code>
+</pre>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="hidden">
+                <ul class="list-group">
+                    <li class="list-group-item">
+
+                    </li>
+                    <li class="list-group-item list-code">
+                        <pre>
+<code class="language-html" data-lang="html">﻿</code>
+</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-5 hidden-xs">
+                <div class="row">
+                    <div class="col-xs-17 col-xs-offset-3">
+                        <div style="height:71px;"></div>
+                        <nav id="nanoNav" data-spy="affix" data-offset-top="447">
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modalAlert">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="modal-title" class="modal-title"></h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-nano modalConfirmYes">确认</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <div class="modal modalConfirm">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="modal-title" class="modal-title"></h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-nano modalConfirmNo">取消</button>
+                    <button type="button" class="btn btn-primary btn-nano modalConfirmYes">确认</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</body>
+</html>

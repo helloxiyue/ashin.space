@@ -1,0 +1,1158 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" http-equiv="content-type" content="text/html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>GUI·组件</title>
+    <link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.css" />
+    <script type="text/javascript" src="../../script/jquery/jquery1.11.2.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../script/jskit/nano-bootstrap.js"></script>
+    <!--[if lt IE 9]>
+        <link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.patch.css" />
+        <script type="text/javascript">
+            if (!Array.prototype.forEach) {
+                Array.prototype.forEach = function(callback, thisArg){}
+            }
+            if(!window.addEventListener){
+                window.addEventListener = function(a, b, c){}
+            }
+        </script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="../../script/plugins/highlight/styles/html.css" />
+    <script type="text/javascript" src="../../script/plugins/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            hljs.initHighlightingOnLoad();
+
+            var nanoNav = $('#nanoNav');
+            nanoNav.width(nanoNav.parent().width());
+
+            jk.automenu('#nanoNav', true);
+
+            $('body').scrollspy({ target: '#nanoNav' });
+
+            //icon
+            var $iconBox = $('<div class="icon-show-box"></div>'),
+                $icon = $('<span class="icon"></span>'),
+                $iconMsg = $('<p></p>'),
+                $section = $('#iconShowSection'),
+                iconArr = [
+                    'amplify', 'beep', 'clock', 'computer',
+                    'download', 'email', 'exit', 'feedback',
+                    'home', 'horn', 'manager', 'mobile',
+                    'msg', 'pencil', 'position', 'record',
+                    'reduce', 'register', 'report', 'set',
+                    'user', 'userinfo', 'userlog', 'usermanage'
+                ];
+            for (var i = 0; i < iconArr.length; i++)
+                $section.append(
+                    $iconBox.clone().append(
+                        $icon.clone().addClass('icon-' + iconArr[i])).append(
+                            $iconMsg.clone().html('icon<br/>icon-' + iconArr[i])));
+
+        })
+    </script>
+    <link type="text/css" rel="stylesheet" href="../../css/show.css" />
+    <style type="text/css">
+        .affix {
+            top: 50px;
+            position: fixed !important;
+            left: auto !important;
+        }
+    </style>
+</head>
+<body data-spy="scroll" data-target="#nanoNav">
+    <span class="sr-only" id="top"></span>
+    <nav class="navbar navbar-default">
+        <div class="container container-lg">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nbHeader">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Nano</a>
+            </div>
+            <div class="collapse navbar-collapse" id="nbHeader">
+                <ul class="nav navbar-nav">
+                    <li><a href="css.html">全局CSS样式</a></li>
+                    <li class="active"><a href="components.html">组件</a></li>
+                    <li><a href="plugin.html">Javasrcipt插件</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="http://www.campnano.com/">开普纳</a></li>
+                    <li><a href="http://campnano.xjtu.ylabs.net/">易约</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="jumbotron">
+        <div class="container container-lg">
+            <h1>组件</h1>
+            <p>无数可复用的组件，包括图标、下拉菜单、导航、警告框、弹出框</p>
+            <p>等更多功能。</p>
+            <p><a class="btn btn-default btn-lg btn-nano" href="/src/nano.bootstrap.zip" style="color:#32beaa;" target="_blank">DOWNLOAD</a></p>
+        </div>
+    </div>
+    <div class="container container-lg">
+        <div class="row">
+            <div class="col-sm-15">
+                <div class="nb-section">
+                    <h2 id="showIcon" class="navHeader">图标</h2>
+                    <hr />
+                    <div class="nb-sub-section">
+                        <h3 id="showIcon_icons" class="subNavHeader">可用图标</h3>
+                        <p>图标没有用字体图标，而是图片。所以无法设置颜色和font-size，请按常规方法使用图片。</p>
+                        <div class="row" id="iconShowSection"></div>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 class="subNavHeader" id="showIcon_less">Less代码</h3>
+                        <p>采用Less代码循环生成图标样式，增减图标只需修改<code>@icon-names</code></p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="box box-gray box-stress">
+                                    <h4>注意</h4>
+                                    <p>要改变图片大小，请使用<code>background-size</code></p>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">
+//less
+﻿//@icon-names，图标.icon-*的命名规则
+@icon-names:
+    amplify,beep,clock,computer,
+    download,email,exit,feedback,
+    home,horn,manager,mobile,
+    msg,pencil,position,record,
+    reduce,register,report,set,
+    user,userinfo,userlog,usermanage;
+@icon-count: length(@icon-names);
+//@icon-url，图标路径
+@icon-url: '../img/icon/';
+//循环生成图标
+.icon-variant(@i: 1) when (@i =&lt; @icon-count) {
+    @name: extract(@icon-names,@i);
+    .icon-@{name} {
+        background-image: url('@{icon-url}@{name}.png');
+    }
+    .icon-variant(@i + 1);
+}
+.icon-variant;
+//.icon基本样式，没有设置width和height，用户自定义
+.icon {
+    display: inline-block;
+    background-size:auto 100%;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+//生成的css代码===================================
+.icon-amplify {
+  background-image: url('../img/icon/amplify.png');
+}
+...
+.icon {
+  display: inline-block;
+  background-size: auto 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+}</code>
+</pre>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="box box-gray box-stress">
+                                    <h4>图标添加方法</h4>
+                                    <p>Less的好处就在于可以写控制代码，上面的图标很多，但是Less代码却很少。</p>
+                                    <p>在源文件less-1.1.0/iocn.less进行修改，<code>@icon-names</code>和<code>@icon-url</code>图片路径中的图片的名字相对应即可。</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>                   
+                </div>
+                <div class="nb-section">
+                    <h2 id="showMenu" class="navHeader">菜单</h2>
+                    <hr />
+                    <div class="nb-sub-section">
+                        <h3 id="showMenu_dropdown" class="subNavHeader">下拉菜单</h3>
+                        <p>和原生bootstrap使用方法相同，只是改变了一些样式，效果如下</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                        Dropdown
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                        <li role="presentation" class="dropdown-header">Dropdown header</li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li role="presentation" class="dropdown-header">Dropdown header</li>
+                                        <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+                                <div style="height:80px;"></div>
+                                <div class="dropup">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+                                        Dropdown
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="dropdown"&gt;
+    &lt;button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true"&gt;
+        Dropdown
+        &lt;span class="caret"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"&gt;
+        &lt;li role="presentation" class="dropdown-header"&gt;Dropdown header&lt;/li&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="presentation" class="divider"&gt;&lt;/li&gt;
+        &lt;li role="presentation" class="dropdown-header"&gt;Dropdown header&lt;/li&gt;
+        &lt;li role="presentation" class="disabled"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div style="height:80px;"&gt;&lt;/div&gt;
+&lt;div class="dropup"&gt;
+    &lt;button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true"&gt;
+        Dropdown
+        &lt;span class="caret"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2"&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showMenu_multiple" class="subNavHeader">多级菜单</h3>
+                        <p>提供了多级菜单组件，需要在父级菜单添加<code>.menu-header</code>类</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-expanded="true">
+                                        Dropdown
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                        <li role="presentation" class="menu-header">
+                                            <a role="menuitem" tabindex="-1" href="#">Menu header >></a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                                <li role="presentation">
+                                                    <!--还可以嵌套-->
+                                                    <a role="menuitem" tabindex="-1" href="#">Menu header？？</a>
+                                                </li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="dropdown"&gt;
+    &lt;button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true"&gt;
+        Dropdown
+        &lt;span class="caret"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2"&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="presentation" class="menu-header"&gt;
+            &lt;a role="menuitem" tabindex="-1" href="#"&gt;Menu header &gt;&gt;&lt;/a&gt;
+            &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2"&gt;
+                &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                &lt;li role="presentation"&gt;
+                    &lt;!--还可以嵌套--&gt;
+                    &lt;a role="menuitem" tabindex="-1" href="#"&gt;Menu header？？&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li role="presentation"&gt;&lt;a role="menuitem" tabindex="-1" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showMenu_extend" class="subNavHeader">拓展菜单</h3>
+                        <p>下拉菜单是不是很单调，拓展菜单提供更丰富的样式</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-expanded="true">
+                                                menu-vertical menu-default
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="menu-vertical menu-default" role="menu" aria-labelledby="dropdownMenu4">
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9 col-sm-offset-2">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu5" data-toggle="dropdown" aria-expanded="true">
+                                                menu-vertical menu-default menu-separate
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="menu-vertical menu-default menu-separate" role="menu" aria-labelledby="dropdownMenu5">
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:40px;"></div>
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu6" data-toggle="dropdown" aria-expanded="true">
+                                                menu-vertical menu-primarydark
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="menu-vertical menu-primarydark" role="menu" aria-labelledby="dropdownMenu6">
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9 col-sm-offset-2">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu7" data-toggle="dropdown" aria-expanded="true">
+                                                menu-vertical menu-primary menu-condensed
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="menu-vertical menu-primary menu-condensed" role="menu" aria-labelledby="dropdownMenu7">
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More action</a></li>
+                                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:40px;"></div>
+                                <div class="row">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu8" data-toggle="dropdown" aria-expanded="true">
+                                            menu-horizontal menu-default
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="menu-horizontal menu-default" role="menu" aria-labelledby="dropdownMenu8">
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More action</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="row"&gt;
+    &lt;div class="col-sm-9"&gt;
+        &lt;div class="dropdown"&gt;
+            &lt;button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-expanded="true"&gt;
+                menu-vertical menu-default
+                &lt;span class="caret"&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;ul class="menu-vertical menu-default" role="menu" aria-labelledby="dropdownMenu4"&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="col-sm-9 col-sm-offset-2"&gt;
+        &lt;div class="dropdown"&gt;
+            &lt;button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu5" data-toggle="dropdown" aria-expanded="true"&gt;
+                menu-vertical menu-default menu-separate
+                &lt;span class="caret"&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;ul class="menu-vertical menu-default menu-separate" role="menu" aria-labelledby="dropdownMenu5"&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style="height:40px;"&gt;&lt;/div&gt;
+&lt;div class="row"&gt;
+    &lt;div class="col-sm-9"&gt;
+        &lt;div class="dropdown"&gt;
+            &lt;button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu6" data-toggle="dropdown" aria-expanded="true"&gt;
+                menu-vertical menu-primarydark
+                &lt;span class="caret"&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;ul class="menu-vertical menu-primarydark" role="menu" aria-labelledby="dropdownMenu6"&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="col-sm-9 col-sm-offset-2"&gt;
+        &lt;div class="dropdown"&gt;
+            &lt;button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu7" data-toggle="dropdown" aria-expanded="true"&gt;
+                menu-vertical menu-primary menu-condensed
+                &lt;span class="caret"&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;ul class="menu-vertical menu-primary menu-condensed" role="menu" aria-labelledby="dropdownMenu7"&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style="height:40px;"&gt;&lt;/div&gt;
+&lt;div class="row"&gt;
+    &lt;div class="dropdown"&gt;
+        &lt;button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu8" data-toggle="dropdown" aria-expanded="true"&gt;
+            menu-horizontal menu-default
+            &lt;span class="caret"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;ul class="menu-horizontal menu-default" role="menu" aria-labelledby="dropdownMenu8"&gt;
+            ...
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="box box-gray box-stress">
+                                    <h4>样式类名介绍</h4>
+                                    <p>样式之间可以相互组合，组合成更丰富的效果。</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <table class="table table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>类名</th>
+                                            <th>效果</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>.menu</td>
+                                            <td><code>display:block</code>只是让菜单显示，没有其他效果，所以隐藏的菜单(下拉菜单)一定不要加这个样式</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-vertical</td>
+                                            <td>垂直菜单</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-horizontal</td>
+                                            <td>水平菜单</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-default</td>
+                                            <td>默认样式</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-separate</td>
+                                            <td><code>li{border-bottom: 1px solid #fff;}</code>白色分隔线</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-trans</td>
+                                            <td><code>li{border-bottom:tansparant;}</code>无分隔线</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-primary</td>
+                                            <td>主题色菜单</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-primarydark</td>
+                                            <td>深颜色主题色菜单</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-pure</td>
+                                            <td>无背景色菜单</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-condensed</td>
+                                            <td>padding减小，紧缩菜单</td>
+                                        </tr>
+                                        <tr>
+                                            <td>.menu-sub</td>
+                                            <td>子集菜单</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showMenu_toggle" class="subNavHeader">toggle菜单</h3>
+                        <p>添加<code>.toggle-btn</code>和<code>.toggle-item</code>，可以轻松建立toggle菜单。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <p>以右边的导航菜单为例子</p>
+                                        <!--添加.menu类，让菜单显示-->
+                                        <ul class="menu menu-vertical menu-pure menu-condensed">
+                                            <li>
+                                                <a href="#" class="toggle-btn">菜单</a>
+                                                <ul class="menu menu-vertical menu-pure menu-sub toggle-item">
+                                                    <li><a href="#">下拉菜单</a></li>
+                                                    <li><a href="#">多级菜单</a></li>
+                                                    <li><a href="#">拓展菜单</a></li>
+                                                    <li><a href="#">toggle菜单</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="toggle-btn">菜单</a>
+                                                <ul class="menu menu-vertical menu-pure menu-sub toggle-item">
+                                                    <li><a href="#">下拉菜单</a></li>
+                                                    <li><a href="#">多级菜单</a></li>
+                                                    <li><a href="#">拓展菜单</a></li>
+                                                    <li><a href="#">toggle菜单</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-9 col-sm-offset-2">
+                                        <p>换个样式</p>
+                                        <!--添加.menu类，让菜单显示-->
+                                        <ul class="menu menu-vertical menu-primary menu-condensed">
+                                            <li class="active">
+                                                <a href="#" class="toggle-btn">菜单</a>
+                                                <ul class="menu menu-vertical menu-primarydark menu-sub menu-trans toggle-item">
+                                                    <li><a href="#">下拉菜单</a></li>
+                                                    <li><a href="#">多级菜单</a></li>
+                                                    <li><a href="#">拓展菜单</a></li>
+                                                    <li><a href="#">toggle菜单</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="toggle-btn">菜单</a>
+                                                <ul class="menu menu-vertical menu-primarydark menu-sub menu-trans toggle-item">
+                                                    <li><a href="#">下拉菜单</a></li>
+                                                    <li><a href="#">多级菜单</a></li>
+                                                    <li><a href="#">拓展菜单</a></li>
+                                                    <li><a href="#">toggle菜单</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                        </ul>
+                                    </div>
+                                </div>                                
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="col-sm-9"&gt;
+    &lt;p&gt;以右边的导航菜单为例子&lt;/p&gt;
+    &lt;!--添加.menu类，让菜单显示--&gt;
+    &lt;ul class="menu menu-vertical menu-pure menu-condensed"&gt;
+        &lt;li&gt;
+            &lt;a href="#" class="toggle-btn"&gt;菜单&lt;/a&gt;
+            &lt;ul class="menu menu-vertical menu-pure menu-sub toggle-item"&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+            &lt;a href="#" class="toggle-btn"&gt;菜单&lt;/a&gt;
+            &lt;ul class="menu menu-vertical menu-pure menu-sub toggle-item"&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="col-sm-9 col-sm-offset-2"&gt;
+    &lt;p&gt;换个样式&lt;/p&gt;
+    &lt;!--添加.menu类，让菜单显示--&gt;
+    &lt;ul class="menu menu-vertical menu-primary menu-condensed"&gt;
+        &lt;li class="active"&gt;
+            &lt;a href="#" class="toggle-btn"&gt;菜单&lt;/a&gt;
+            &lt;ul class="menu menu-vertical menu-primarydark menu-sub menu-trans toggle-item"&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+            &lt;a href="#" class="toggle-btn"&gt;菜单&lt;/a&gt;
+            &lt;ul class="menu menu-vertical menu-primarydark menu-sub menu-trans toggle-item"&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>                   
+                </div>
+                <div class="nb-section">
+                    <h2 id="showNav" class="navHeader">导航</h2>
+                    <hr />
+                    <p><code>.nav</code>和<code>.menu</code>组合使用，提供更丰富的效果</p>
+                    <div class="nb-sub-section">
+                        <h3 id="showNav_tabs" class="subNavHeader">标签页</h3>
+                        <p>没有改变样式</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="nav nav-tabs">
+                                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                                    <li role="presentation"><a href="#">Profile</a></li>
+                                    <li role="presentation"><a href="#">Messages</a></li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;ul class="nav nav-tabs"&gt;
+    ...
+&lt;/ul&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showNav_pills" class="subNavHeader">胶囊式标签页</h3>
+                        <p>样式改动较大，看起来更像菜单。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="nav nav-pills">
+                                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                                    <li role="presentation"><a href="#">Profile</a></li>
+                                    <li role="presentation"><a href="#">Messages</a></li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;ul class="nav nav-pills"&gt;
+    ...
+&lt;/ul&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                        <p>胶囊是标签页也是可以垂直方向堆叠排列的。只需添加 .nav-stacked 类。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <ul class="nav nav-pills nav-stacked col-xs-20">
+                                            <li role="presentation" class="active"><a href="#">Home</a></li>
+                                            <li role="presentation"><a href="#">Profile</a></li>
+                                            <li role="presentation"><a href="#">Messages</a></li>
+                                        </ul>
+                                    </div>
+                                </div>                               
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">&lt;ul class="nav nav-pills nav-stacked"&gt;
+    ...
+&lt;/ul&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 class="subNavHeader" id="showNav_justified">两端对齐的标签页</h3>
+                        <p>在大于 768px 的屏幕上，通过 .nav-justified 类可以很容易的让标签页或胶囊式标签呈现出同等宽度。在小屏幕上，导航链接呈现堆叠样式。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="nav nav-tabs nav-justified">
+                                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                                    <li role="presentation"><a href="#">Profile</a></li>
+                                    <li role="presentation"><a href="#">Messages</a></li>
+                                </ul>
+                                <br>
+                                <ul class="nav nav-pills nav-justified">
+                                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                                    <li role="presentation"><a href="#">Profile</a></li>
+                                    <li role="presentation"><a href="#">Messages</a></li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;ul class="nav nav-tabs nav-justified"&gt;
+    ...
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;ul class="nav nav-pills nav-justified"&gt;
+    ...
+&lt;/ul&gt;﻿</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 class="subNavHeader" id="showNav_menu">添加下拉菜单</h3>
+                        <p>丰富多彩的组合，呈现的效果让你意想不到。</p>
+                        <hr />
+                        <h4>和dropdown-menu组合</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="nav nav-tabs">
+                                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                                    <li role="presentation"><a href="#">Help</a></li>
+                                    <li role="presentation" class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                            Dropdown <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something else here</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;ul class="nav nav-tabs"&gt;
+    &lt;li role="presentation" class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li role="presentation"&gt;&lt;a href="#"&gt;Help&lt;/a&gt;&lt;/li&gt;
+    &lt;li role="presentation" class="dropdown"&gt;
+        &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"&gt;
+            Dropdown &lt;span class="caret"&gt;&lt;/span&gt;
+        &lt;/a&gt;
+        &lt;ul class="dropdown-menu" role="menu"&gt;
+            ...
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;﻿</code>
+</pre>
+                            </li>
+                        </ul>
+                        <h4>pills + menu-vertical组合</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="nav nav-pills nav-justified">
+                                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                                    <li role="presentation"><a href="#">Help</a></li>
+                                    <li role="presentation" class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                            Dropdown <span class="caret"></span>
+                                        </a>
+                                        <ul class="menu-vertical menu-primarydark menu-condensed" role="menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something</a></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;ul class="nav nav-pills nav-justified"&gt;
+    &lt;li role="presentation" class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li role="presentation"&gt;&lt;a href="#"&gt;Help&lt;/a&gt;&lt;/li&gt;
+    &lt;li role="presentation" class="dropdown"&gt;
+        &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"&gt;
+            Dropdown &lt;span class="caret"&gt;&lt;/span&gt;
+        &lt;/a&gt;
+        &lt;ul class="menu-vertical menu-primarydark menu-condensed" role="menu"&gt;
+            ...
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;﻿</code>
+</pre>
+                            </li>
+                        </ul>
+                        <h4>pills + menu-horizontal组合</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="nav nav-pills nav-justified nav-horizental-menu">
+                                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                                    <li role="presentation">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                            Help <span class="caret"></span>
+                                        </a>
+                                        <ul class="menu-horizontal menu-default menu-condensed" role="menu">
+                                            <li><a href="#">Help me</a></li>
+                                            <li><a href="#">Like</a></li>
+                                            <li><a href="#">Perfect</a></li>
+                                        </ul>
+                                    </li>
+                                    <li role="presentation" class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                            Dropdown <span class="caret"></span>
+                                        </a>
+                                        <ul class="menu-horizontal menu-default menu-condensed" role="menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something</a></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;ul class="nav nav-pills nav-justified nav-horizental-menu"&gt;
+    &lt;li role="presentation" class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li role="presentation"&gt;
+        &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"&gt;
+            Help &lt;span class="caret"&gt;&lt;/span&gt;
+        &lt;/a&gt;
+        &lt;ul class="menu-horizontal menu-default menu-condensed" role="menu"&gt;
+            ...
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li role="presentation" class="dropdown"&gt;
+        &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"&gt;
+            Dropdown &lt;span class="caret"&gt;&lt;/span&gt;
+        &lt;/a&gt;
+        &lt;ul class="menu-horizontal menu-default menu-condensed" role="menu"&gt;
+            ...
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                        <h4>nav-stacked + menu-vertical</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li role="presentation"><a href="#">Home</a></li>
+                                    <li role="presentation" class="open">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="true">
+                                            Help <span class="caret"></span>
+                                        </a>
+                                        <ul class="menu-vertical menu-default menu-condensed" role="menu">
+                                            <li><a href="#">Help me</a></li>
+                                            <li><a href="#">Like</a></li>
+                                            <li><a href="#">Perfect</a></li>
+                                        </ul>
+                                    </li>
+                                    <li role="presentation" class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                            Dropdown <span class="caret"></span>
+                                        </a>
+                                        <ul class="menu-vertical menu-default menu-condensed" role="menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something</a></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;ul class="nav nav-pills nav-stacked"&gt;
+    &lt;li role="presentation"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li role="presentation" class="open"&gt;
+        &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="true"&gt;
+            Help &lt;span class="caret"&gt;&lt;/span&gt;
+        &lt;/a&gt;
+        &lt;ul class="menu-vertical menu-default menu-condensed" role="menu"&gt;
+            ...
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li role="presentation" class="dropdown"&gt;
+        &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"&gt;
+            Dropdown &lt;span class="caret"&gt;&lt;/span&gt;
+        &lt;/a&gt;
+        &lt;ul class="menu-vertical menu-default menu-condensed" role="menu"&gt;
+            ...
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;﻿</code>
+</pre>
+                            </li>
+                        </ul>
+                        <h4>更多组合...</h4>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showJumbotron" class="navHeader">巨幕</h2>
+                    <hr />
+                    <p>这是一个轻量、灵活的组件，它能延伸至整个浏览器视口来展示网站上的关键内容。</p>
+                    <div class="nb-sub-section">
+                        <h3 id="showJumbotron_base" class="subNavHeader">基本实例</h3>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="jumbotron">
+                                    <h1 id="hello,-world!">Hello, world!<a class="anchorjs-link" href="#hello,-world!"><span class="anchorjs-icon"></span></a></h1>
+                                    <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                                    <p><a class="btn btn-default btn-lg btn-nano" href="#" role="button"><span class="text-primary">Learn more</span></a></p>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="jumbotron"&gt;
+    &lt;h1 id="hello,-world!"&gt;Hello, world!&lt;a class="anchorjs-link" href="#hello,-world!"&gt;&lt;span class="anchorjs-icon"&gt;&lt;/span&gt;&lt;/a&gt;&lt;/h1&gt;
+    &lt;p&gt;This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.&lt;/p&gt;
+    &lt;p&gt;&lt;a class="btn btn-default btn-lg btn-nano" href="#" role="button"&gt;&lt;span class="text-primary"&gt;Learn more&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;﻿</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showJumbotron_bg" class="subNavHeader">变换背景色</h3>
+                        <p><code>.jumbotron</code>和<code>.bg-*</code>搭配使用，可以改变背景色。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="jumbotron bg-success">
+                                    <h1 id="hello,-world!">Hello, world!<a class="anchorjs-link" href="#hello,-world!"><span class="anchorjs-icon"></span></a></h1>
+                                    <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                                    <p><a class="btn btn-default btn-lg btn-nano" href="#" role="button"><span class="text-success">Learn more</span></a></p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="jumbotron bg-danger">
+                                    <h1 id="hello,-world!">Hello, world!<a class="anchorjs-link" href="#hello,-world!"><span class="anchorjs-icon"></span></a></h1>
+                                    <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                                    <p><a class="btn btn-default btn-lg btn-nano" href="#" role="button"><span class="text-danger">Learn more</span></a></p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="box box-gray box-stress">
+                                    <h4>提醒</h4>
+                                    <p><code>.jumbotron</code>作为body的亲子元素将没有圆角，此外<code>.navbar</code>作为body的亲子元素也没有圆角。</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showList" class="navHeader">列表组</h2>
+                    <hr />
+                    <p>列表组是灵活又强大的组件，不仅能用于显示一组简单的元素，还能用于复杂的定制的内容。</p>
+                    <div class="nb-sub-section">
+                        <h3 id="showList_noborder" class="subNavHeader">去边框</h3>
+                        <p>原bootstrap<code>.list-group</code>的样式更像菜单，我添加了<code>.list-group-pure</code>类，去掉了左右边框，可以和其它样式更好组合</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-15 center-block">
+                                        <ul class="list-group list-group-pure">
+                                            <li class="list-group-item">Cras justo odio</li>
+                                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                                            <li class="list-group-item">Morbi leo risus</li>
+                                            <li class="list-group-item">Porta ac consectetur ac</li>
+                                            <li class="list-group-item">Vestibulum at eros</li>
+                                        </ul>
+                                    </div>
+                                </div>                               
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;ul class="list-group list-group-pure"&gt;
+    &lt;li class="list-group-item"&gt;Cras justo odio&lt;/li&gt;
+    &lt;li class="list-group-item"&gt;Dapibus ac facilisis in&lt;/li&gt;
+    &lt;li class="list-group-item"&gt;Morbi leo risus&lt;/li&gt;
+    &lt;li class="list-group-item"&gt;Porta ac consectetur ac&lt;/li&gt;
+    &lt;li class="list-group-item"&gt;Vestibulum at eros&lt;/li&gt;
+&lt;/ul&gt;﻿</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 class="subNavHeader" id="showList_dotted">虚线分隔线</h3>
+                        <p>添加<code>.list-group-dotted</code>类，将分隔线变成虚线，就更像内容的列表了。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-15 center-block">
+                                        <ul class="list-group list-group-dotted">
+                                            <li class="list-group-item">Cras justo odio</li>
+                                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                                            <li class="list-group-item">Morbi leo risus</li>
+                                            <li class="list-group-item">Porta ac consectetur ac</li>
+                                            <li class="list-group-item">Vestibulum at eros</li>
+                                        </ul>
+                                    </div>
+                                </div>   
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;ul class="list-group list-group-dotted"&gt;
+    ...
+&lt;/ul&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showBox" class="navHeader">盒子</h2>
+                    <hr />
+                    <p>左右15px的padding，可以提供一些间距。</p>
+                    <div class="nb-sub-section">
+                        <h3 id="showBox" class="subNavHeader">边框颜色</h3>
+                        <p>添加<code>.box-gray</code>类，使元素带有灰色边框。<code>.box-*</code>的其它类，感觉平时用得少，就没有添加。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="box box-gray">
+                                    <h4 class="text-center">灰色边框</h4>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="box box-gray"&gt;
+    &lt;h4 class="text-center"&gt;灰色边框&lt;/h4&gt;
+&lt;/div&gt;﻿</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 class="subNavHeader" id="showBox_stress">强调</h3>
+                        <p>添加<code>.box-stress</code>类，使<code>.box</code>的<code>left-border</code>带有强调色</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="box box-gray box-stress">
+                                    <h4>box强调</h4>
+                                    <p>这是本网页中常用的样式！</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="box box-gray box-stress"&gt;
+    &lt;h4&gt;box强调&lt;/h4&gt;
+    &lt;p&gt;这是本网页中常用的样式！&lt;/p&gt;
+&lt;/div&gt;﻿</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showRadius" class="navHeader">圆角</h2>
+                    <p>提供一些圆角类，可以改变圆角的样式和大小</p>
+                    <div class="nb-sub-section">
+                        <h3 id="showRadius_radius" class="subNavHeader">圆角大小</h3>
+                        <p><code>.radius-*</code>,.metro类，设置圆角大小。<code>.radius(4px) | .radius-lg(6px) | .radius-sm(3px) | .metro(0px)</code>，添加了!important优先级。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <button class="btn btn-primary btn-nano  radius">radius</button>
+                                <button class="btn btn-primary btn-nano  radius-lg">radius-lg</button>
+                                <button class="btn btn-primary btn-nano  radius-sm">radius-sm</button>
+                                <button class="btn btn-primary btn-nano metro">metro</button>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;!--Less代码--&gt;
+.circle{
+    border-radius:@input-height-computed !important;//35px
+}
+.circle-lg{
+    border-radius:@input-height-large-computed !important;//45px
+}
+.circle-sm{
+    border-radius:@input-height-small-computed !important;//30px
+}
+.metro{
+    border-radius:0px !important;//无圆角
+}
+.radius{
+    border-radius:@border-radius-base !important;//4px
+}
+.radius-lg{
+    border-radius:@border-radius-large !important;//6px
+}
+.radius-sm{
+    border-radius:@border-radius-small !important;//3px
+}</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showRadius_circle" class="subNavHeader">圆形圆角</h3>
+                        <p>主要是和<code>.form-control</code>和<code>.btn</code>搭配使用。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p>和<code>.btn</code>搭配</p>
+                                <p>
+                                    <button class="btn btn-nano btn-primary circle">.btn.circle</button>
+                                    <button class="btn btn-danger circle-lg btn-lg">.btn-lg.circle-lg</button>
+                                </p>
+                                <p>和<code>.form-control</code>搭配</p>
+                                <p>
+                                    <div class="form-group has-tip">
+                                        <span class="icon icon-user form-control-tip"></span>
+                                        <input class="form-control circle" placeholder=".form-control.circle" />
+                                    </div>
+                                </p>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;p&gt;和&lt;code&gt;.btn&lt;/code&gt;搭配&lt;/p&gt;
+&lt;p&gt;
+    &lt;button class="btn btn-nano btn-primary circle"&gt;.btn.circle&lt;/button&gt;
+    &lt;button class="btn btn-danger circle-lg btn-lg"&gt;.btn-lg.circle-lg&lt;/button&gt;
+&lt;/p&gt;
+&lt;p&gt;和&lt;code&gt;.form-control&lt;/code&gt;搭配&lt;/p&gt;
+&lt;p&gt;
+    &lt;div class="form-group has-tip"&gt;
+        &lt;span class="icon icon-user form-control-tip"&gt;&lt;/span&gt;
+        &lt;input class="form-control circle" placeholder=".form-control.circle" /&gt;
+    &lt;/div&gt;
+&lt;/p&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden">
+                <ul class="list-group">
+                    <li class="list-group-item">
+
+                    </li>
+                    <li class="list-group-item list-code">
+                        <pre>
+<code class="language-html" data-lang="html">﻿</code>
+</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-5 hidden-xs">
+                <div class="row">
+                    <div class="col-xs-17 col-xs-offset-3">
+                        <div style="height:71px;"></div>
+                        <nav id="nanoNav" data-spy="affix" data-offset-top="447">
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

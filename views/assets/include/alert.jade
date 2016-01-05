@@ -1,0 +1,10 @@
+﻿//模态消息框
+.modal.modalAlert(role="dialog",aria-labelledby="myModalAlter",aria-hidden="true")
+	.modal-dialog.modal-sm
+		.modal-content
+			.modal-header
+				span.close(data-dismiss="modal"): span.fz-13(aria-hidden="false") &times;
+				h4.modal-title.text-info#myModalAlert 消息
+			.modal-body.text-center
+			.modal-footer
+				button.btn.btn-info.modalConfirmYes.border-radius 确认

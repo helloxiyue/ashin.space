@@ -1,0 +1,32 @@
+﻿//@icon-names，图标.icon-*的命名规则
+@icon-names: 
+    amplify,beep,clock,computer,
+    download,email,exit,feedback,
+    home,horn,manager,mobile,
+    msg,pencil,position,record,
+    reduce,register,report,set,
+    user,userinfo,userlog,usermanage;
+@icon-count: length(@icon-names);
+//@icon-url，图标路径
+@icon-url: '../img/icon/';
+
+//循环生成图标
+.icon-variant(@i: 1) when (@i =< @icon-count) {
+    @name: extract(@icon-names,@i);
+
+    .icon-@{name} {
+        background-image: url('@{icon-url}@{name}.png');
+    }
+
+    .icon-variant(@i + 1);
+}
+
+.icon-variant;
+
+//.icon基本样式，没有设置width和height，用户自定义
+.icon {
+    display: inline-block;
+    background-size:auto 100%;
+    background-position:center center;
+    background-repeat:no-repeat;
+}

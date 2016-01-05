@@ -1,0 +1,1286 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" http-equiv="content-type" content="text/html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>GUI·基础CSS</title>
+    <link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.css" />
+    <script type="text/javascript" src="../../script/jquery/jquery1.11.2.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../script/jskit/nano-bootstrap.js"></script>
+    <!--[if lt IE 9]>
+        <link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.patch.css" />
+        <script type="text/javascript">
+            if (!Array.prototype.forEach) {
+                Array.prototype.forEach = function(callback, thisArg){}
+            }
+            if(!window.addEventListener){
+                window.addEventListener = function(a, b, c){}
+            }
+        </script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="../../script/plugins/highlight/styles/html.css" />
+    <script type="text/javascript" src="../../script/plugins/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            hljs.initHighlightingOnLoad();
+
+            var nanoNav = $('#nanoNav');
+            nanoNav.width(nanoNav.parent().width());
+
+            jk.automenu('#nanoNav',true);
+
+            $('body').scrollspy({ target: '#nanoNav' })
+        })
+    </script>
+    <link type="text/css" rel="stylesheet" href="../../css/show.css" />
+    <style type="text/css">
+        .affix{
+            top:50px;
+            position:fixed !important;
+            left:auto !important;
+        }
+    </style>
+</head>
+<body data-spy="scroll" data-target="#nanoNav">
+    <span class="sr-only" id="top"></span>
+    <nav class="navbar navbar-default">
+        <div class="container container-lg">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nbHeader">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Nano</a>
+            </div>
+            <div class="collapse navbar-collapse" id="nbHeader">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="css.html">全局CSS样式</a></li>
+                    <li><a href="components.html">组件</a></li>
+                    <li><a href="plugin.html">Javasrcipt插件</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="http://www.campnano.com/">开普纳</a></li>
+                    <li><a href="http://campnano.xjtu.ylabs.net/">易约</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="jumbotron">
+        <div class="container container-lg">
+            <h1>Nano.bootstrap.css</h1>
+            <p>丰富的样式，平面化风格，更好的兼容性</p>
+            <p>修改的代码有详细的文档说明，增添的样式有更方便的运用；保证没有减少原样式，使用方法不改变。</p>
+            <p><a class="btn btn-default btn-lg btn-nano" href="/src/nano.bootstrap.zip" style="color:#32beaa;" target="_blank">DOWNLOAD</a></p>
+        </div>
+    </div>
+    <div class="container container-lg">
+        <div class="row">
+            <div class="col-sm-15">
+                <div class="nb-section">
+                    <h2 id="showGuid" class="navHeader">概览</h2>
+                    <hr />
+                    <h3>引用</h3>
+                    <div class="highlight">
+                        <pre>
+<code class="language-html" data-lang="html">﻿&lt;!--设定字符集--&gt;
+&lt;meta charset="utf-8" http-equiv="content-type" content="text/html" /&gt;
+&lt;!--视口适应屏幕宽度--&gt;
+&lt;meta name="viewport" content="width=device-width,initial-scale=1.0" /&gt;
+&lt;!--引用基础样式--&gt;
+&lt;link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.css" /&gt;
+&lt;!--引用jquery--&gt;
+&lt;script type="text/javascript" src="../../script/jquery/jquery1.11.2.min.js"&gt;&lt;/script&gt;
+&lt;!--引用bootstrap.js--&gt;
+&lt;script type="text/javascript" src="../../js/bootstrap.min.js"&gt;&lt;/script&gt;
+&lt;!--引用nano-bootstrape.js，解决兼容性--&gt;
+&lt;script type="text/javascript" src="../../script/jskit/nano-bootstrap.js"&gt;&lt;/script&gt;
+&lt;!--引入样式补丁文件，在ie9下加载--&gt;
+&lt;!--[if lt IE 9]&gt;
+    &lt;link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.patch.css" /&gt;
+    &lt;/script&gt;
+&lt;![endif]--&gt;
+</code>
+</pre>
+                    </div>
+                    <p></p>
+                    <div class="box box-gray box-stress">
+                        <h4>说明</h4>
+                        <p>
+                            修改了bootstrap的源文件，主要向三个方向改动：<br />
+                            一、常用样式兼容到ie7<br />
+                            二、修改了配色和一些样式<br />
+                            三、添加了一些样式<br />
+                            所以，使用方法和bootstrap一模一样，不需要额外的学习成本。下面的说明文档只是展示nano.bootstrap修改了的地方，没有修改的地方，虽然没有展示，但依然保留了原bootstrap的样式，就不重复写文档了。其中有很多是兼容性改写的策略和代码，希望对大家有帮助。
+                        </p>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="box box-gray box-stress">
+                        <h4>约定</h4>
+                        <p>原bootstrap没有被展示的内容依然存在，只是未做修改</p>
+                        <p>展示的内容兼容到ie7</p>
+                        <p>没能兼容到ie7的内容，希望大神指教，fork me @ <a href="https://github.com/helloxiyue/nano.bootstrap.css"><code>helloxiyue</code></a></p>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showContainer" class="navHeader">容器布局</h2>
+                    <hr />
+                    <p>和bootstrap不同的是，<code>.container</code>的<code>@container-lg:1000px</code>，这样做的目的是因为我把栅格系统改为了20栅格，并且取消了<code>@grid-gutter-width</code>，这样每个栅格的宽度为50px，控制更精细。</p>
+                    <div class="highlight">
+                        <pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  ...
+<span class="nt">&lt;/div&gt;</span></code></pre>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showGrid" class="navHeader">栅格系统</h2>
+                    <hr />
+                    <div class="nb-sub-section">
+                        <h3 id="showGrid_compat" class="subNavHeader">兼容解决方案</h3>
+                        <p>bootstrap在ie9以下变形最大的原因是因为设置了<code>*{box-zising:border-box;}</code>和<code>&:after{clear:both}</code>，所以我取消了这两种设置，带来的麻烦是我不能设置<code>@grid-gutter-width</code>和我必须要手动消除浮动。但不要担心啦，你只需要引入nano-bootstrap.js就可以解决兼容问题了，它会在高版本浏览器加上&:after的设置，在低版本浏览器为<code>.row</code>添加消除浮动的子元素<code>.row-clear</code>。另外,由于低版本浏览器不支持媒体查询，所以.col-sm-*和.col-md-*和.col-lg-*在低版本的时候也会被js替换成.col-xs-* </p>
+                        <p>
+                            <div class="row">
+                                <div class="col-sm-4"><div class="well well-sm">.col-sm-4</div></div>
+                                <div class="col-sm-10"><div class="well well-sm">.col-sm-10</div></div>
+                                <div class="col-sm-6"><div class="well well-sm">.col-sm-6</div></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10 center-block">
+                                    <div class="well well-sm">.col-sm-10.center-block 有20栅格</div>
+                                </div>
+                            </div>
+                        </p>
+                        <p>在ie9以下测试下列代码，是不会变形的。此外，在bootstrap中栅格居中很烦，举个例子如<code>.col-md-10.col-md-offset-5</code>，如果是<code>.col-md-11</code>还不能居中了，而且兼容性也不好，所以我在<code>.center-block</code>中设置了<code>float:none !important;</code>，这样就可以让栅格也居中了。 </p>
+                        <div class="highlight">
+                            <pre>
+<code class="language-html" data-lang="html">﻿&lt;p&gt;
+    &lt;div class="row"&gt;
+        &lt;div class="col-sm-4"&gt;&lt;div class="well well-sm"&gt;.col-sm-4&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="col-sm-10"&gt;&lt;div class="well well-sm"&gt;.col-sm-10&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="col-sm-6"&gt;&lt;div class="well well-sm"&gt;.col-sm-6&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row"&gt;
+        &lt;div class="col-sm-10 center-block"&gt;
+            &lt;div class="well well-sm"&gt;.col-sm-10.center-block 有20栅格&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/p&gt;</code>
+</pre>
+                        </div>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showGrid_gutter" class="subNavHeader">gutter解决方案</h3>
+                        <p>有些小伙伴还是喜欢30px的gutter，这样栅格的内容之间会有间距，所以我增加了两个解决方案</p>
+                        <p><span class="label label-primary">方案一：</span>添加<code>.gutter</code>类，为元素添加15px的padding；或添加<code>.inherit-gutter</code>为内部的栅格元素加上15px的padding。【不兼容】</p>
+                        <p><span class="label label-primary">方案二：</span>在栅格元素内添加亲子元素<code>.box</code>，.box带有15px的padding。【店长推荐】</p>
+                        <p>
+                            <div class="row inherit-gutter">
+                                <div class="col-sm-4"><div class="well well-sm">.col-sm-4</div></div>
+                                <div class="col-sm-10"><div class="well well-sm">有间隔了</div></div>
+                                <div class="col-sm-6"><div class="well well-sm">.col-sm-6</div></div>
+                            </div>
+                        </p>
+                        <p>测试代码：</p>
+                        <div class="highlight">
+                            <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="row inherit-gutter"&gt;
+    &lt;div class="col-sm-4"&gt;&lt;div class="well well-sm"&gt;.col-sm-4&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="col-sm-10"&gt;&lt;div class="well well-sm"&gt;有间隔了&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="col-sm-6"&gt;&lt;div class="well well-sm"&gt;.col-sm-6&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showTable" class="navHeader">表格</h2>
+                    <hr />
+                    <div class="nb-sub-section">
+                        <h3 id="showTable_table" class="subNavHeader">基本实例</h3>
+                        <p><code>.table</code>的样式改动很大，这样的设计更偏向平面化和大色块，希望大家喜欢。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <caption>基本表格</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Username</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿&lt;table class="table"&gt;
+    ...
+&lt;/table&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showTable_striped" class="subNavHeader">条纹状表格</h3>
+                        <p>通过 <code>.table-striped</code> 类可以给 <code>&lt;tbody&gt;</code> 之内的每一行增加斑马条纹样式。</p>
+                        <p></p>
+                        <div class="box box-stress box-gray">
+                            <h4 class="text-danger">跨浏览器兼容性</h4>
+                            <p>条纹状表格是依赖 <code>:nth-child</code> CSS 选择器实现的，而这一功能不被 Internet Explorer 8 支持。</p>
+                        </div>
+                        <p></p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <caption>条纹状表格</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Username</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre><code class="language-html" data-lang="html"><span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-striped"</span><span class="nt">&gt;</span>
+  ...
+<span class="nt">&lt;/table&gt;</span></code></pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showTable_bordered" class="subNavHeader">带边框的表格</h3>
+                        <p>添加 <code>.table-bordered</code> 类为表格和其中的每个单元格增加边框。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <caption>带边框的表格</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Username</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre><code class="language-html" data-lang="html"><span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-bordered"</span><span class="nt">&gt;</span>
+  ...
+<span class="nt">&lt;/table&gt;</span></code></pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showTable_hover" class="subNavHeader">鼠标悬停</h3>
+                        <p>通过添加 <code>.table-hover</code> 类可以让 <code>&lt;tbody&gt;</code> 中的每一行对鼠标悬停状态作出响应。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <caption>鼠标悬停</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Username</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre><code class="language-html" data-lang="html"><span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-hover"</span><span class="nt">&gt;</span>
+  ...
+<span class="nt">&lt;/table&gt;</span></code></pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showTable_condensed" class="subNavHeader"></h3>
+                        <h2 id="tables-condensed">紧缩表格<a class="anchorjs-link" href="#tables-condensed"><span class="anchorjs-icon"></span></a></h2>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <caption>紧缩表格</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Username</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre><code class="language-html" data-lang="html"><span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-condensed"</span><span class="nt">&gt;</span>
+  ...
+<span class="nt">&lt;/table&gt;</span></code></pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showTable_state" class="subNavHeader">状态类</h3>
+                        <p>通过这些状态类可以为行或单元格设置颜色。</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <colgroup>
+                                    <col class="col-xs-1">
+                                    <col class="col-xs-7">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>Class</th>
+                                        <th>描述</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td scope="row">
+                                            .active
+                                        </td>
+                                        <td>鼠标悬停在行或单元格上时所设置的颜色</td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">
+                                            .success
+                                        </td>
+                                        <td>标识成功或积极的动作</td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">
+                                            .info
+                                        </td>
+                                        <td>标识普通的提示信息或动作</td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">
+                                            .warning
+                                        </td>
+                                        <td>标识警告或需要用户注意</td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">
+                                            .danger
+                                        </td>
+                                        <td>标识危险或潜在的带来负面影响的动作</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p></p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <caption>实例:</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Column heading</th>
+                                                <th>Column heading</th>
+                                                <th>Column heading</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="active">
+                                                <th scope="row">1</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                            <tr class="success">
+                                                <th scope="row">3</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">4</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                            <tr class="info">
+                                                <th scope="row">5</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">6</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                            <tr class="warning">
+                                                <th scope="row">7</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">8</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                            <tr class="danger">
+                                                <th scope="row">9</th>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                                <td>Column content</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- On rows --&gt;</span>
+<span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"active"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"success"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"warning"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"danger"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"info"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/tr&gt;</span>
+<span class="c">&lt;!-- On cells (`td` or `th`) --&gt;</span>
+<span class="nt">&lt;tr&gt;</span>
+                                    <span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">"active"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/td&gt;</span>
+                                    <span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">"success"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/td&gt;</span>
+                                    <span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">"warning"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/td&gt;</span>
+                                    <span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">"danger"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/td&gt;</span>
+                                    <span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">"info"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/td&gt;</span>
+<span class="nt">&lt;/tr&gt;</span></code></pre>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showTable_extend" class="subNavHeader">拓展内容</h3>
+                        <p>提供了一些boostrape没有的效果</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <caption>拓展内容</caption>
+                                <thead>
+                                    <tr>
+                                        <th class="warning">类名</th>
+                                        <th colspan="3" class="text-center">效果</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="warning">
+                                            .text-center<br />
+                                            .text-left<br />
+                                            .text-right
+                                        </td>
+                                        <td class="text-center">.text-center水平居中</td>
+                                        <td class="text-right">.text-right居右</td>
+                                        <td class="text-left">在table、tr、td<br />三种元素上设置都有效</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="warning">
+                                            .table.middle<br />
+                                            .table.bottom
+                                        </td>
+                                        <td colspan="3">.table默认vertical-align为top，可以设置.middle和.bottom改变vertical-align</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="warning">
+                                            .table-cell<br />
+                                            .table-cell.top<br />
+                                            .table-cell.bottom<br />
+                                            .table-cell.middle<br />
+                                            .table-cell.left<br />
+                                            .table-cell.center<br />
+                                            .table-cell.right
+                                        </td>
+                                        <td>
+                                            .table-cell是控制td和th的样式,<br />正如方向修饰词的字面意思，<br />它让内部的元素向对应的方向放置。<br />
+                                            有时候我们想要让元素水平和上下都居中，<br />但vertical-align:middle只有当box-sizing:table-cell才能对内部元素有效，<br />所以，.table-cell也用来对内部的元素进行垂直居中处理，<br />但内部元素一定要是行级元素。<br />右边的图片是个例子。
+                                        </td>
+                                        <td colspan="2" class="table-cell">
+                                            <img src="../../img/icon/computer.png" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showInput" class="navHeader">表单</h2>
+                    <hr />
+                    <div class="nb-sub-section">
+                        <h3 id="showInput_compat" class="subNavHeader">兼容方案</h3>
+                        <p>
+                            <code>box-sizing:border-box</code>时：outerHeight = height（同理width）<br />
+                            <code>box-sizing:border-box</code>时：outerHeight = line-height + padding-top + padding-bottom + border-top + border-bottom（同理width）<br />
+                            ie9以下不支持box-sizing，使得表单元素变形，解决方案如下
+                        </p>
+                        <p>nano-bootstrap.css   高度解决方案</p>
+                        <div class="highlight">
+                            <pre class="language-css" data-lang="css">
+<code>.form-control{//设置高度，不支持box-sizing的浏览器正常显示
+        box-sizing:content-box;
+        widht:100%;
+        height:@input-height-base;//23px
+        &.input-lg{
+            height:@input-height-large;//23px
+        }
+        &.input-sm{
+            height:@input-height-small;//22px
+        }
+    }
+//浏览器宽度肯定大于1px，下面代码会覆盖上面的设置
+﻿@media (min-width:1px){  //支持媒体查询的一般支持box-sizing,通过这种方法进行覆盖
+    .form-control{
+        box-sizing:border-box;
+        height:@input-height-computed;//35px
+        &.input-lg{
+            height:@input-height-large-computed;//45px
+        }
+        &.input-sm{
+            height:@input-height-small-computed;30px
+        }
+    }
+}</code>
+</pre>
+                        </div>
+                        <p>宽度兼容方案，这段代码会在不支持border-box的浏览器中执行。</p>
+                        <div class="highlight">
+                            <pre class="language-javascript" data-lang="javascript">
+<code>﻿jk.windowOnlode(function () {//windown.onload执行
+    if (!window.matchMedia("(min-width:1px)").matches) {
+        var control = $('.form-control,.btn-block').filter(':not(.form-control-inline)').each(function () {
+            var self = $(this),
+                pw = self.parent().width(),
+                wa = self.outerWidth(),
+                w = self.width();
+            self.width(w - (wa - pw));
+        });
+    }  
+})</code>
+</pre>
+                        </div>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showInput_color" class="subNavHeader">配色方案</h3>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="showInput_color_primary" class="control-label">基础颜色</label>
+                                        <input id="showInput_color_primary" class="form-control" type="text" placeholder="取消了阴影效果" />
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <label for="showInput_color_success" class="control-label">状态：success</label>
+                                        <input id="showInput_color_success" class="form-control" type="text" placeholder="成功" />
+                                    </div>
+                                    <div class="form-group has-warning">
+                                        <label for="showInput_color_warning" class="control-label">状态：warning</label>
+                                        <input id="showInput_color_warning" class="form-control" type="text" placeholder="警告" />
+                                    </div>
+                                    <div class="form-group has-error">
+                                        <label for="showInput_color_error" class="control-label">状态：error</label>
+                                        <input id="showInput_color_error" class="form-control" type="text" placeholder="错误" />
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿&lt;form&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="showInput_color_primary" class="control-label"&gt;基础颜色&lt;/label&gt;
+        &lt;input id="showInput_color_primary" class="form-control" placeholder="取消了阴影效果" type="text"&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group has-success"&gt;
+        &lt;label for="showInput_color_success" class="control-label"&gt;状态：success&lt;/label&gt;
+        &lt;input id="showInput_color_success" class="form-control" placeholder="成功" type="text"&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group has-warning"&gt;
+        &lt;label for="showInput_color_warning" class="control-label"&gt;状态：warning&lt;/label&gt;
+        &lt;input id="showInput_color_warning" class="form-control" placeholder="警告" type="text"&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group has-error"&gt;
+        &lt;label for="showInput_color_error" class="control-label"&gt;状态：error&lt;/label&gt;
+        &lt;input id="showInput_color_error" class="form-control" placeholder="错误" type="text"&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showInput_base" class="subNavHeader">基础实例</h3>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input class="form-control" id="exampleInputEmail1" placeholder="Enter email" type="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Password</label>
+                                        <input class="form-control" id="exampleInputPassword1" placeholder="Password" type="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">File input</label>
+                                        <input id="exampleInputFile" type="file">
+                                        <p class="help-block">Example block-level help text here.</p>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Check me out
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </form>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿&lt;form&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="exampleInputEmail1"&gt;Email address&lt;/label&gt;
+        &lt;input class="form-control" id="exampleInputEmail1" placeholder="Enter email" type="email"&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="exampleInputPassword1"&gt;Password&lt;/label&gt;
+        &lt;input class="form-control" id="exampleInputPassword1" placeholder="Password" type="password"&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="exampleInputFile"&gt;File input&lt;/label&gt;
+        &lt;input id="exampleInputFile" type="file"&gt;
+        &lt;p class="help-block"&gt;Example block-level help text here.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="checkbox"&gt;
+        &lt;label&gt;
+            &lt;input type="checkbox"&gt; Check me out
+        &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;button type="submit" class="btn btn-default"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showInput_inline" class="subNavHeader">内联表单</h3>
+                        <p>为 <code>&lt;form&gt;</code> 元素添加 <code>.form-inline</code> 类可使其内容左对齐并且表现为 <code>inline-block</code> 级别的控件。<strong>只适用于视口（viewport）至少在 768px 宽度时（视口宽度再小的话就会使表单折叠）。</strong></p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="box box-gray box-stress">
+                                    <h4 class="text-danger">兼容方案</h4>
+                                    <p>引入补丁文件nano-bootstrap.patch.css</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-css" data-lang="css">//引入patch
+﻿&lt;!--[if lt IE 9]&gt;
+    &lt;link type="text/css" rel="stylesheet" href="../../css/nano-bootstrap.patch.css" /&gt;
+&lt;![endif]--&gt;
+//patch中的相关兼容代码
+.form-inline {//取消媒体查询
+    .form-group {
+        display: inline;//inline-block在ie7要换行，所以改成inline
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+    .form-control {
+        display: inline;
+        width: auto;
+        vertical-align: middle;
+    }
+    .form-control-static {
+        display: inline;
+    }
+    .input-group {
+        display: inline-table;
+        vertical-align: middle;
+        .input-group-addon,
+        .input-group-btn,
+        .form-control {
+            width: auto;
+        }
+    }
+    .input-group > .form-control {
+        width: 100%;
+    }
+    .control-label {
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+    .radio,
+    .checkbox {
+        display: inline;
+        margin-top: 0;
+        margin-bottom: 0;
+        vertical-align: middle;
+        label {
+            padding-left: 0;
+        }
+    }
+    .radio input[type="radio"],
+    .checkbox input[type="checkbox"] {
+        position: relative;
+        margin-left: 0;
+    }
+    .has-feedback .form-control-feedback {
+        top: 0;
+    }
+    .has-tip .form-control-tip {
+        top: 0;
+    }
+}
+</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="exampleInputName2">Name</label>
+                                        <input class="form-control" id="exampleInputName2" placeholder="Jane Doe" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail2">Email</label>
+                                        <input class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com" type="email">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Send invitation</button>
+                                </form>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿&lt;form class="form-inline"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="exampleInputName2"&gt;Name&lt;/label&gt;
+        &lt;input class="form-control" id="exampleInputName2" placeholder="Jane Doe" type="text"&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="exampleInputEmail2"&gt;Email&lt;/label&gt;
+        &lt;input class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com" type="email"&gt;
+    &lt;/div&gt;
+    &lt;button type="submit" class="btn btn-default"&gt;Send invitation&lt;/button&gt;
+&lt;/form&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="exampleInputEmail3">Email address</label>
+                                        <input class="form-control" id="exampleInputEmail3" placeholder="Enter email" type="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="exampleInputPassword3">Password</label>
+                                        <input class="form-control" id="exampleInputPassword3" placeholder="Password" type="password">
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Remember me
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Sign in</button>
+                                </form>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿&lt;form class="form-inline"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="sr-only" for="exampleInputEmail3"&gt;Email address&lt;/label&gt;
+        &lt;input class="form-control" id="exampleInputEmail3" placeholder="Enter email" type="email"&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="sr-only" for="exampleInputPassword3"&gt;Password&lt;/label&gt;
+        &lt;input class="form-control" id="exampleInputPassword3" placeholder="Password" type="password"&gt;
+    &lt;/div&gt;
+    &lt;div class="checkbox"&gt;
+        &lt;label&gt;
+            &lt;input type="checkbox"&gt; Remember me
+        &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;button type="submit" class="btn btn-default"&gt;Sign in&lt;/button&gt;
+&lt;/form&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">$</div>
+                                            <input class="form-control" id="exampleInputAmount" placeholder="Amount" type="text">
+                                            <div class="input-group-addon">.00</div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-nano">Transfer cash</button>
+                                </form>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿&lt;form class="form-inline"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="sr-only" for="exampleInputAmount"&gt;Amount (in dollars)&lt;/label&gt;
+        &lt;div class="input-group"&gt;
+            &lt;div class="input-group-addon"&gt;$&lt;/div&gt;
+            &lt;input class="form-control" id="exampleInputAmount" placeholder="Amount" type="text"&gt;
+            &lt;div class="input-group-addon"&gt;.00&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button type="submit" class="btn btn-primary btn-nano"&gt;Transfer cash&lt;/button&gt;
+&lt;/form&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showInput_horizontal" class="subNavHeader">水平排列的表单</h3>
+                        <p>通过为表单添加 <code>.form-horizontal</code> 类，并联合使用 Bootstrap 预置的栅格类，可以将 <code>label</code> 标签和控件组水平并排布局。这样做将改变 <code>.form-group</code> 的行为，使其表现为栅格系统中的行（row），因此就无需再额外添加 <code>.row</code> 了。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <form class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-3 control-label"><span class="box">Email</span></label>
+                                        <div class="col-sm-17">
+                                            <input class="form-control" id="inputEmail3" placeholder="Email" type="email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 control-label"><span class="box">Password</span></label>
+                                        <div class="col-sm-17">
+                                            <input class="form-control" id="inputPassword3" placeholder="Password" type="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-offset-3 col-sm-17">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"> Remember me
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-offset-3 col-sm-17">
+                                            <button type="submit" class="btn btn-default">Sign in</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="box box-gray box-stress">
+                                    <h4 class="text-danger">兼容方案</h4>
+                                    <p>参看以下代码</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿﻿&lt;form class="form-horizontal"&gt;
+    &lt;div class="form-group row"&gt;    &lt;!--要添加.row类，可以消除栅格元素的浮动--&gt;
+        &lt;label for="inputEmail3" class="col-sm-3 control-label"&gt;
+            &lt;span class="box"&gt;Email&lt;/span&gt;  &lt;!--.box类可以有15px的左右padding(gutter为0px，不能增加间距了)--&gt;
+        &lt;/label&gt;
+        &lt;div class="col-sm-17"&gt;
+            &lt;input class="form-control" id="inputEmail3" placeholder="Email" type="email"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group row"&gt;
+        &lt;label for="inputPassword3" class="col-sm-3 control-label"&gt;&lt;span class="box"&gt;Password&lt;/span&gt;&lt;/label&gt;
+        &lt;div class="col-sm-17"&gt;
+            &lt;input class="form-control" id="inputPassword3" placeholder="Password" type="password"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group row"&gt;
+        &lt;div class="col-sm-offset-3 col-sm-17"&gt;
+            &lt;div class="checkbox"&gt;
+                &lt;label&gt;
+                    &lt;input type="checkbox"&gt; Remember me
+                &lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group row"&gt;
+        &lt;div class="col-sm-offset-3 col-sm-17"&gt;
+            &lt;button type="submit" class="btn btn-default"&gt;Sign in&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showInput_size" class="subNavHeader">表单组的尺寸</h3>
+                        <p>通过添加 <code>.form-group-lg</code> 或 <code>.form-group-sm</code> 类，为 <code>.form-horizontal</code> 包裹的 <code>label</code> 元素和表单控件快速设置尺寸。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <form class="form-horizontal">
+                                    <div class="form-group form-group-lg row">
+                                        <label class="col-sm-3 control-label" for="formGroupInputLarge"><span class="box">Large label</span></label>
+                                        <div class="col-sm-17">
+                                            <input class="form-control" id="formGroupInputLarge" placeholder="Large input" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-sm row">
+                                        <label class="col-sm-3 control-label" for="formGroupInputSmall"><span class="box">Small label</span></label>
+                                        <div class="col-sm-17">
+                                            <input class="form-control" id="formGroupInputSmall" placeholder="Small input" type="text">
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿&lt;form class="form-horizontal"&gt;
+    &lt;div class="form-group form-group-lg row"&gt;
+        &lt;label class="col-sm-3 control-label" for="formGroupInputLarge"&gt;&lt;span class="box"&gt;Large label&lt;/span&gt;&lt;/label&gt;
+        &lt;div class="col-sm-17"&gt;
+            &lt;input class="form-control" id="formGroupInputLarge" placeholder="Large input" type="text"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group form-group-sm row"&gt;
+        &lt;label class="col-sm-3 control-label" for="formGroupInputSmall"&gt;&lt;span class="box"&gt;Small label&lt;/span&gt;&lt;/label&gt;
+        &lt;div class="col-sm-17"&gt;
+            &lt;input class="form-control" id="formGroupInputSmall" placeholder="Small input" type="text"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showInput_icon" class="subNavHeader">添加额外的图标</h3>
+                        <p>你可以为输入框添加额外的图标。只需设置相应的 <code>.has-feedback</code> 和<code>.has-tip</code>类并添加正确的图标即可。</p>
+                        <p><code>.has-tip</code>前置图标，图标也全部换成了图片，所以不能变色了</p>
+                        <p><code>.circle(35px)|.circle-lg(45px)|.circle-sm(30px)可以设置圆形轮廓哟</code></p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <form>
+                                    <div class="form-group has-feedback form-group-lg">
+                                        <label>后置图标</label>
+                                        <input class="form-control circle-lg" type="text" placeholder="后置图标" />
+                                        <span class="icon icon-user form-control-feedback"></span>
+                                    </div>
+                                    <div class="form-group has-tip form-group-sm">
+                                        <label>前置图标</label>
+                                        <input class="form-control circle-sm" type="text" placeholder="前置图标" />
+                                        <span class="icon icon-home form-control-tip"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-tip">
+                                        <label>前后图标</label>
+                                        <input class="form-control circle" type="text" placeholder="前后图标" />
+                                        <span class="icon icon-home form-control-tip"></span>
+                                        <span class="icon icon-user form-control-feedback"></span>
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <div class="highlight">
+                                    <pre>
+<code class="language-html" data-lang="html">﻿&lt;form&gt;
+    &lt;div class="form-group has-feedback form-group-lg"&gt;
+        &lt;label&gt;后置图标&lt;/label&gt;
+        &lt;input class="form-control circle-lg" type="text" placeholder="后置图标" /&gt;
+        &lt;span class="icon icon-user form-control-feedback"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group has-tip form-group-sm"&gt;
+        &lt;label&gt;前置图标&lt;/label&gt;
+        &lt;input class="form-control circle-sm" type="text" placeholder="前置图标" /&gt;
+        &lt;span class="icon icon-home form-control-tip"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group has-feedback has-tip"&gt;
+        &lt;label&gt;前后图标&lt;/label&gt;
+        &lt;input class="form-control circle" type="text" placeholder="前后图标" /&gt;
+        &lt;span class="icon icon-home form-control-tip"&gt;&lt;/span&gt;
+        &lt;span class="icon icon-user form-control-feedback"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code>
+</pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showBtn" class="navHeader">按钮</h2>
+                    <hr />
+                    <div class="nb-sub-section">
+                        <h3 id="showBtn_style" class="subNavHeader">预定义样式</h3>
+                        <p>使用下面列出的类可以快速创建一个带有预定义样式的按钮。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <button type="button" class="btn btn-default">（默认样式）Default</button>
+                                    <button type="button" class="btn btn-primary">（首选项）Primary</button>
+                                    <button type="button" class="btn btn-success">（成功）Success</button>
+                                    <button type="button" class="btn btn-info">（一般信息）Info</button>
+                                    <button type="button" class="btn btn-warning">（警告）Warning</button>
+                                    <button type="button" class="btn btn-danger">（危险）Danger</button>
+                                    <button type="button" class="btn btn-link">（链接）Link</button>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="row"&gt;
+    &lt;button type="button" class="btn btn-default"&gt;（默认样式）Default&lt;/button&gt;
+    &lt;button type="button" class="btn btn-primary"&gt;（首选项）Primary&lt;/button&gt;
+    &lt;button type="button" class="btn btn-success"&gt;（成功）Success&lt;/button&gt;
+    &lt;button type="button" class="btn btn-info"&gt;（一般信息）Info&lt;/button&gt;
+    &lt;button type="button" class="btn btn-warning"&gt;（警告）Warning&lt;/button&gt;
+    &lt;button type="button" class="btn btn-danger"&gt;（危险）Danger&lt;/button&gt;
+    &lt;button type="button" class="btn btn-link"&gt;（链接）Link&lt;/button&gt;
+&lt;/div&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showBtn_nano" class="subNavHeader">nano样式按钮</h3>
+                        <p>添加<code>.btn-nano</code>类，可以改变按钮的样式</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <button type="button" class="btn btn-default btn-nano">（默认样式）Default</button>
+                                    <button type="button" class="btn btn-primary btn-nano">（首选项）Primary</button>
+                                    <button type="button" class="btn btn-success btn-nano">（成功）Success</button>
+                                    <button type="button" class="btn btn-info btn-nano">（一般信息）Info</button>
+                                    <button type="button" class="btn btn-warning btn-nano">（警告）Warning</button>
+                                    <button type="button" class="btn btn-danger btn-nano">（危险）Danger</button>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;div class="row"&gt;
+    &lt;button type="button" class="btn btn-default btn-nano"&gt;（默认样式）Default&lt;/button&gt;
+    &lt;button type="button" class="btn btn-primary btn-nano"&gt;（首选项）Primary&lt;/button&gt;
+    &lt;button type="button" class="btn btn-success btn-nano"&gt;（成功）Success&lt;/button&gt;
+    &lt;button type="button" class="btn btn-info btn-nano"&gt;（一般信息）Info&lt;/button&gt;
+    &lt;button type="button" class="btn btn-warning btn-nano"&gt;（警告）Warning&lt;/button&gt;
+    &lt;button type="button" class="btn btn-danger btn-nano"&gt;（危险）Danger&lt;/button&gt;
+&lt;/div&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nb-section">
+                    <h2 id="showAssist" class="navHeader">辅助类</h2>
+                    <hr />
+                    <div class="nb-sub-section">
+                        <h3 id="showAssist_text" class="subNavHeader">情境文本颜色</h3>
+                        <p>通过颜色来展示意图，Bootstrap 提供了一组工具类。这些类可以应用于链接，并且在鼠标经过时颜色可以还可以加深，就像默认的链接一样。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item show-base-tex">
+                                <p class="text-muted">Fusce dapibus, tellus ac cursus commodo, tortor mauris nibh.</p>
+                                <p class="text-primary">Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                <p class="text-success">Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+                                <p class="text-info">Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+                                <p class="text-warning">Etiam porta sem malesuada magna mollis euismod.</p>
+                                <p class="text-danger">Donec ullamcorper nulla non metus auctor fringilla.</p>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;p class="text-muted"&gt;Fusce dapibus, tellus ac cursus commodo, tortor mauris nibh.&lt;/p&gt;
+&lt;p class="text-primary"&gt;Nullam id dolor id nibh ultricies vehicula ut id elit.&lt;/p&gt;
+&lt;p class="text-success"&gt;Duis mollis, est non commodo luctus, nisi erat porttitor ligula.&lt;/p&gt;
+&lt;p class="text-info"&gt;Maecenas sed diam eget risus varius blandit sit amet non magna.&lt;/p&gt;
+&lt;p class="text-warning"&gt;Etiam porta sem malesuada magna mollis euismod.&lt;/p&gt;
+&lt;p class="text-danger"&gt;Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nb-sub-section">
+                        <h3 id="showAssist_bg" class="subNavHeader">情景背景色</h3>
+                        <p>和情境文本颜色类一样，使用任意情境背景色类就可以设置元素的背景。链接组件在鼠标经过时颜色会加深，就像上面所讲的情境文本颜色类一样。</p>
+                        <ul class="list-group">
+                            <li class="list-group-item show-bg-block show-base-tex">
+                                <p class="bg-primary">Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                <p class="bg-success">Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+                                <p class="bg-info">Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+                                <p class="bg-warning">Etiam porta sem malesuada magna mollis euismod.</p>
+                                <p class="bg-danger">Donec ullamcorper nulla non metus auctor fringilla.</p>
+                            </li>
+                            <li class="list-group-item list-code">
+                                <pre>
+<code class="language-html" data-lang="html">﻿&lt;p class="bg-primary"&gt;Nullam id dolor id nibh ultricies vehicula ut id elit.&lt;/p&gt;
+&lt;p class="bg-success"&gt;Duis mollis, est non commodo luctus, nisi erat porttitor ligula.&lt;/p&gt;
+&lt;p class="bg-info"&gt;Maecenas sed diam eget risus varius blandit sit amet non magna.&lt;/p&gt;
+&lt;p class="bg-warning"&gt;Etiam porta sem malesuada magna mollis euismod.&lt;/p&gt;
+&lt;p class="bg-danger"&gt;Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;</code>
+</pre>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5 hidden-xs">
+                <div class="row">
+                    <div class="col-xs-17 col-xs-offset-3">
+                        <div style="height:71px;"></div>
+                        <nav id="nanoNav" data-spy="affix" data-offset-top="447">
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
